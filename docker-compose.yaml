@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  hello_service:
+    build:
+      context: ./hello
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./hello:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    working_dir: /app
+
+  goodbye_service:
+    build:
+      context: ./goodbye
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./goodbye:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    working_dir: /app 
