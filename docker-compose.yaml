@@ -13,7 +13,9 @@ services:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
     working_dir: /app
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--root-path", "/"]
+    networks:
+      - app_network
 
   goodbye_service:
     build:
@@ -27,4 +29,10 @@ services:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
     working_dir: /app
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"] 
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--root-path", "/"]
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge 
