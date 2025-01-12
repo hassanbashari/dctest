@@ -7,15 +7,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8001:8000"
-    volumes:
-      - ./hello:/app
     environment:
-      - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
-    working_dir: /app
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--root-path", "/"]
     networks:
       - app_network
+    restart: always
 
   goodbye_service:
     build:
@@ -23,16 +19,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8002:8000"
-    volumes:
-      - ./goodbye:/app
     environment:
-      - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
-    working_dir: /app
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--root-path", "/"]
     networks:
       - app_network
+    restart: always
 
 networks:
   app_network:
-    driver: bridge 
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16 
